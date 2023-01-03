@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="housing_entity_view_form" model="ir.ui.view">
+        <field name="name">jt.housing.entity.form</field>
+        <field name="model">jt.housing.entity</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="code" class="oe_edit_only"/>
+                            <field name="name" readonly="True"/>
+                        </h1>
+                        <h2>                            
+                            <field name="description" placeholder="Description ..." />                            
+                        </h2>
+                    </div>
+                    <group>
+                        
+                        <field name="project_id" attrs="{'readonly': [('readonly_state', '=', True)]}" />
+                        <field name="state" invisible="1"/>
+                        <field name="readonly_state" invisible="1"/>
+                        <field name="batch_id" domain="['&amp;', ('project_id', '=', project_id), ('state', 'in', ['draft',])]" attrs="{'readonly': [('readonly_state', '=', True)]}" />
+                    </group>
+                    <notebook>
+                        <page name="bom_lines" string="Lines">
+                            <field name="bom_line_ids" widget="one2many" attrs="{'readonly': [('readonly_state', '=', True)]}">
+                                <tree string="Components" editable="bottom" >
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_detailed_type': 'product'}"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="housing_entity_view_tree" model="ir.ui.view">
+        <field name="name">jt.housing.entity.view.tree</field>
+        <field name="model">jt.housing.entity</field>
+        <field name="arch" type="xml">
+            <tree string="Housing entities">
+                <field name="sequence" widget="handle" />
+                <field name="priority" widget="priority" optional="show" nolabel="1"/>
+                <field name="name" />
+                <field name="description" optional="show"/>
+                <field name="batch_id" widget="badge" options="{'color_field': 'color'}"/>
+                <field name="state" widget="badge" decoration-success="state == 'sale' or state == 'done'" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="housing_entity_view_search" model="ir.ui.view">
+        <field name="name">jt.housing.entity.search</field>
+        <field name="model">jt.housing.entity</field>
+        <field name="arch" type="xml">
+            <search string="Entity">
+                <group expand="1" string="Group By">
+                    <filter string="Housing project" name="type" context="{'group_by':'project_id'}"/>
+                </group>                
+            </search>
+        </field>
+    </record>
+
+
+    <!-- <record id="action_housing_project_entities_list" model="ir.actions.act_window">
+        <field name="name">Entities</field>
+        <field name="res_model">jt.housing.entity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('project_id', '=', active_id)]</field>
+        <field name="context">{
+            'project_id': 'active_id',
+            'default_project_id': 'active_id',
+        }</field>
+        <field name="target">current</field>        
+    </record>     -->
+
+</odoo>
