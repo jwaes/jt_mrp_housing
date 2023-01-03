@@ -86,7 +86,7 @@
                             
                             <field name="entity_ids" widget="one2many" context="{'default_project_id': active_id}" domain="[('project_id', '=', active_id)]" >
                                 <tree string="Entities">
-                                    <field name="project_id" invisible="0"/>
+                                    <field name="project_id" invisible="1"/>
                                     <field name="name"/>
                                     <field name="description"/>
                                     <field name="batch_id"/>
