@@ -26,7 +26,6 @@
                         <page name="bom_lines" string="Lines">
                             <field name="bom_line_ids" widget="one2many" attrs="{'readonly': [('readonly_state', '=', True)]}">
                                 <tree string="Components" editable="bottom" >
-                                    <field name="product_uom_category_id" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" context="{'default_detailed_type': 'product'}"/>
                                     <field name="product_qty"/>
