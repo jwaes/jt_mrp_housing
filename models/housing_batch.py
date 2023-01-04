@@ -122,6 +122,8 @@ class HousingBatch(models.Model):
             'partner_shipping_id': self.project_id.default_delivery_partner_id.id,
             'analytic_account_id': self.project_id.analytic_account_id.id,
             'housing_batch_id': self.id,
+            'incoterm': self.project_id.incoterm_id.id,
+            'commitment_date': self.planned_delivery_date,
         }    
 
         sale_order = self.env["sale.order"].create(sale_order_vals)

@@ -31,6 +31,10 @@ class HousingProject(models.Model):
     reference = fields.Char('Reference', tracking=True)
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account')
 
+    incoterm_id = fields.Many2one(
+        'account.incoterms', 'Incoterm', required=True,
+        help="International Commercial Terms are a series of predefined commercial terms used in international transactions.")
+
     user_id = fields.Many2one(
         comodel_name='res.users',
         string="Salesperson",

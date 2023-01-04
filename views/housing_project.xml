@@ -68,6 +68,7 @@
                         <field name="responsibles_ids" widget="many2many_tags" attrs="{'readonly': [('partner_id', '=', False)]}"/>
                         <field name="reference" />
                         <field name="analytic_account_id"/>
+                        <field name="incoterm_id"/>
                         <field name="default_delivery_partner_id"/>
                         <field name="company_id" invisible="1"/>
                         <field name="user_id" widget="many2one_avatar_user"/>
