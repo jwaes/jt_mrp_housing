@@ -35,6 +35,8 @@ class HousingProject(models.Model):
         'account.incoterms', 'Incoterm', required=True,
         help="International Commercial Terms are a series of predefined commercial terms used in international transactions.")
 
+    discount = fields.Float(string="Discount (%)",digits='Discount', default=0.0)
+
     user_id = fields.Many2one(
         comodel_name='res.users',
         string="Salesperson",
@@ -46,6 +48,7 @@ class HousingProject(models.Model):
         ))
 
     responsibles_ids = fields.Many2many('res.partner', string='Responsibles', tracking=True, domain="[('parent_id','=', partner_id)]")
+    onsite_ids = fields.Many2many('res.partner', 'res_partner_onsite_housing_project_rel', string='On-sites', tracking=True, domain="[('parent_id','=', partner_id)]")
     default_delivery_partner_id = fields.Many2one('res.partner', string='Delivery address', required=True, tracking=True, domain="[('parent_id','=', partner_id)]")
     comment = fields.Text('Comment')
 

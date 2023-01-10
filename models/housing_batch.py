@@ -137,6 +137,7 @@ class HousingBatch(models.Model):
                 'order_id': sale_order.id,
                 'product_id': product.id,
                 'product_uom_qty': qty,
+                'discount': self.housing_project_id.discount,
             }
             order_line = self.env["sale.order.line"].create(order_line_vals)
 
