@@ -3,6 +3,7 @@
     'name': "jt_mrp_housing",
 
     'summary': "Housing projects",
+    'application': True,
 
     'description': "",
 
@@ -15,10 +16,10 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.6',
+    'version': '0.8',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale_management','sale_stock','account_accountant','analytic'],
+    'depends': ['base','contacts','sale_management','sale_stock','account_accountant','analytic'],
 
     # always loaded
     'data': [

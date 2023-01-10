@@ -51,10 +51,10 @@ class HousingProject(models.Model):
 
     composite_code = fields.Char(compute='_compute_composite_code', string='Project code', store=True)
 
-    entity_ids = fields.One2many('jt.housing.entity', 'project_id', string='Entities')
+    entity_ids = fields.One2many('jt.housing.entity', 'housing_project_id', string='Entities')
     entity_count = fields.Integer(compute='_compute_entity_count', string='Entity count')
 
-    batch_ids = fields.One2many('jt.housing.batch', 'project_id', string='Batches')
+    batch_ids = fields.One2many('jt.housing.batch', 'housing_project_id', string='Batches')
     batch_count = fields.Integer(compute='_compute_batch_count', string='Batch count')
     
     quotation_count = fields.Integer(compute='_compute_sale_count', string="Number of Quotations")
@@ -146,10 +146,10 @@ class HousingProject(models.Model):
             'view_mode': 'tree,form',
             'views': [(self.env.ref('jt_mrp_housing.housing_entity_view_tree').id, 'tree'), (False, 'form')],
             'context': {
-                'default_project_id': self.id,
+                'default_housing_project_id': self.id,
             },
             'domain': [
-                ['project_id', '=', self.id],
+                ['housing_project_id', '=', self.id],
             ],            
         }
 
@@ -162,10 +162,10 @@ class HousingProject(models.Model):
             'view_mode': 'tree,form',
             'views': [(self.env.ref('jt_mrp_housing.housing_batch_view_tree').id, 'tree'), (False, 'form')],
             'context': {
-                'default_project_id': self.id,
+                'default_housing_project_id': self.id,
             },
             'domain': [
-                ['project_id', '=', self.id],
+                ['housing_project_id', '=', self.id],
             ],            
         }        
 

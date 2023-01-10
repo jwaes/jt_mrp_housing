@@ -17,10 +17,10 @@
                     </div>
                     <group>
                         
-                        <field name="project_id" attrs="{'readonly': [('readonly_state', '=', True)]}" />
+                        <field name="housing_project_id" attrs="{'readonly': [('readonly_state', '=', True)]}" />
                         <field name="state" invisible="1"/>
                         <field name="readonly_state" invisible="1"/>
-                        <field name="batch_id" domain="['&amp;', ('project_id', '=', project_id), ('state', 'in', ['draft',])]" attrs="{'readonly': [('readonly_state', '=', True)]}" />
+                        <field name="batch_id" domain="['&amp;', ('housing_project_id', '=', housing_project_id), ('state', 'in', ['draft',])]" attrs="{'readonly': [('readonly_state', '=', True)]}" />
                     </group>
                     <notebook>
                         <page name="bom_lines" string="Lines">
@@ -64,7 +64,7 @@
         <field name="arch" type="xml">
             <search string="Entity">
                 <group expand="1" string="Group By">
-                    <filter string="Housing project" name="type" context="{'group_by':'project_id'}"/>
+                    <filter string="Housing project" name="type" context="{'group_by':'housing_project_id'}"/>
                 </group>                
             </search>
         </field>
@@ -75,10 +75,10 @@
         <field name="name">Entities</field>
         <field name="res_model">jt.housing.entity</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('project_id', '=', active_id)]</field>
+        <field name="domain">[('housing_project_id', '=', active_id)]</field>
         <field name="context">{
-            'project_id': 'active_id',
-            'default_project_id': 'active_id',
+            'housing_project_id': 'active_id',
+            'default_housing_project_id': 'active_id',
         }</field>
         <field name="target">current</field>        
     </record>     -->

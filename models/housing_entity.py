@@ -25,8 +25,8 @@ class HousingEntity(models.Model):
     description = fields.Char('Description', tracking=True)
     name = fields.Char(compute='_compute_composite_code', string='Entity code', store=True)
 
-    project_id = fields.Many2one('jt.housing.project', string='Housing project', required=True)
-    batch_id = fields.Many2one('jt.housing.batch', string='Batch', copy=False, domain="[('project_id', '=', project_id)]")
+    housing_project_id = fields.Many2one('jt.housing.project', string='Housing project', required=True)
+    batch_id = fields.Many2one('jt.housing.batch', string='Batch', copy=False, domain="[('housing_project_id', '=', project_id)]")
 
     bom_line_ids = fields.One2many('jt.housing.bom.line', 'entity_id', 'BoM Lines', copy=True, tracking=True)
 
@@ -52,11 +52,11 @@ class HousingEntity(models.Model):
         return super().create(vals)
 
 
-    @api.depends('code','project_id.composite_code')
+    @api.depends('code','housing_project_id.composite_code')
     def _compute_composite_code(self):        
         for he in self:
-            if he.project_id.composite_code and he.code:
-                he.name = he.project_id.composite_code + "/" + re.sub('[^A-Z0-9\.\-]*', '', he.code.upper())
+            if he.housing_project_id.composite_code and he.code:
+                he.name = he.housing_project_id.composite_code + "/" + re.sub('[^A-Z0-9\.\-]*', '', he.code.upper())
             else:
                 he.name = "#/#/#"
 

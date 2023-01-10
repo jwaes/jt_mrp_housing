@@ -105,7 +105,7 @@
                                         <td>
                                             <span t-field="line.product_id" />
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <span t-field="line.product_qty" />
                                         </td>
                                         <td>
@@ -124,7 +124,7 @@
 
     <template id="project_header">
         <t t-if="o._name == 'jt.housing.project'" t-set="project" t-value="o" />
-        <t t-if="not project" t-set="project" t-value="o.project_id" />
+        <t t-if="not project" t-set="project" t-value="o.housing_project_id" />
 
         <div class="row mb-3">
             <div class="col-9">

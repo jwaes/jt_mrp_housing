@@ -25,9 +25,9 @@ class HousingBatch(models.Model):
 
     color = fields.Integer('color')
 
-    project_id = fields.Many2one('jt.housing.project', string='Housing project', readonly=True, required=True)
-    partner_id = fields.Many2one('res.partner', string='Partner', related='project_id.partner_id')
-    entity_ids = fields.One2many('jt.housing.entity', 'batch_id', string='Entities', tracking=True, domain="[('project_id', '=', project_id)]") 
+    housing_project_id = fields.Many2one('jt.housing.project', string='Housing project', readonly=True, required=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', related='housing_project_id.partner_id')
+    entity_ids = fields.One2many('jt.housing.entity', 'batch_id', string='Entities', tracking=True, domain="[('housing_project_id', '=', housing_project_id)]") 
     entity_count = fields.Char(compute='_compute_entity_count', string='Entity Count')
 
     order_ids = fields.One2many('sale.order', 'housing_batch_id', string='Orders')
@@ -61,8 +61,8 @@ class HousingBatch(models.Model):
             if self.sale_order_count != 1:
                 _logger.warn("more than one sale order ....")
                 return
-            sale_orders = self.order_ids.filtered_domain(self.project_id._get_sale_order_domain())
-            _logger.info("state found to be ", sale_orders[0].state)
+            sale_orders = self.order_ids.filtered_domain(self.housing_project_id._get_sale_order_domain())
+            _logger.info("state found to be %s", sale_orders[0].state)
             self.state = sale_orders[0].state
 
 
@@ -74,9 +74,9 @@ class HousingBatch(models.Model):
     @api.depends('order_ids.state', 'order_ids.date_order', 'order_ids.company_id')
     def _compute_sale_count(self):
         for batch in self:
-            sale_orders = batch.order_ids.filtered_domain(batch.project_id._get_sale_order_domain())
+            sale_orders = batch.order_ids.filtered_domain(batch.housing_project_id._get_sale_order_domain())
             batch.sale_order_count = len(sale_orders)
-            batch.quotation_count = len(batch.order_ids.filtered_domain(batch.project_id._get_quotation_domain()))
+            batch.quotation_count = len(batch.order_ids.filtered_domain(batch.housing_project_id._get_quotation_domain()))
 
     @api.model
     def create(self, vals):
@@ -95,11 +95,11 @@ class HousingBatch(models.Model):
             'view_mode': 'tree,form',
             'views': [(self.env.ref('jt_mrp_housing.housing_entity_view_tree').id, 'tree'), (False, 'form')],
             'context': {
-                'default_project_id': self.project_id.id,
+                'default_housing_project_id': self.housing_project_id.id,
                 'default_batch_id': self.id,
             },
             'domain': [
-                ['project_id', '=', self.project_id.id],
+                ['housing_project_id', '=', self.housing_project_id.id],
                 ['batch_id', '=', self.id]
             ],            
         }
@@ -116,13 +116,13 @@ class HousingBatch(models.Model):
         sale_order_vals = {
             'name': self.env['ir.sequence'].next_by_code('sale.order'),
             'partner_id': self.partner_id.id,
-            'origin': self.project_id.name,
-            'company_id': self.project_id.company_id.id or self.env.company.id,
-            'client_order_ref': self.project_id.name,
-            'partner_shipping_id': self.project_id.default_delivery_partner_id.id,
-            'analytic_account_id': self.project_id.analytic_account_id.id,
+            'origin': self.name,
+            'company_id': self.housing_project_id.company_id.id or self.env.company.id,
+            'client_order_ref': ("%s: %s" % (self.housing_project_id.name, self.name)),
+            'partner_shipping_id': self.housing_project_id.default_delivery_partner_id.id,
+            'analytic_account_id': self.housing_project_id.analytic_account_id.id,
             'housing_batch_id': self.id,
-            'incoterm': self.project_id.incoterm_id.id,
+            'incoterm': self.housing_project_id.incoterm_id.id,
             'commitment_date': self.planned_delivery_date,
         }    
 
@@ -136,7 +136,7 @@ class HousingBatch(models.Model):
                 'name': product.display_name,
                 'order_id': sale_order.id,
                 'product_id': product.id,
-                'product_uom_qty': 1.0,                
+                'product_uom_qty': 1.0,
             }
             order_line = self.env["sale.order.line"].create(order_line_vals)
 
@@ -165,7 +165,7 @@ class HousingBatch(models.Model):
 
     def _prepare_quotation_context(self):
         self.ensure_one()
-        quotation_context = self.project_id._prepare_quotation_context()
+        quotation_context = self.housing_project_id._prepare_quotation_context()
         quotation_context['default_origin'] = self.name
         quotation_context['default_housing_batch_id'] = self.id
         return quotation_context
@@ -173,10 +173,10 @@ class HousingBatch(models.Model):
     def action_view_sale_quotation(self):
         self.ensure_one()
         action = self.env["ir.actions.actions"]._for_xml_id("sale.action_quotations_with_onboarding")
-        action['context'] = self.project_id._prepare_quotation_context()
+        action['context'] = self.housing_project_id._prepare_quotation_context()
         action['context']['search_default_draft'] = 1
-        action['domain'] = expression.AND([[('housing_batch_id', '=', self.id)], self.project_id._get_quotation_domain()])
-        quotations = self.order_ids.filtered_domain(self.project_id._get_quotation_domain())
+        action['domain'] = expression.AND([[('housing_batch_id', '=', self.id)], self.housing_project_id._get_quotation_domain()])
+        quotations = self.order_ids.filtered_domain(self.housing_project_id._get_quotation_domain())
         if len(quotations) == 1:
             action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
             action['res_id'] = quotations.id
@@ -186,12 +186,12 @@ class HousingBatch(models.Model):
         self.ensure_one()
         action = self.env["ir.actions.actions"]._for_xml_id("sale.action_orders")
         action['context'] = {
-            'search_default_partner_id': self.project_id.partner_id.id,
-            'default_partner_id': self.project_id.partner_id.id,
+            'search_default_partner_id': self.housing_project_id.partner_id.id,
+            'default_partner_id': self.housing_project_id.partner_id.id,
             'default_housing_batch_id': self.id,
         }
-        action['domain'] = expression.AND([[('housing_batch_id', '=', self.id)], self.project_id._get_sale_order_domain()])
-        orders = self.order_ids.filtered_domain(self.project_id._get_sale_order_domain())
+        action['domain'] = expression.AND([[('housing_batch_id', '=', self.id)], self.housing_project_id._get_sale_order_domain()])
+        orders = self.order_ids.filtered_domain(self.housing_project_id._get_sale_order_domain())
         if len(orders) == 1:
             action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
             action['res_id'] = orders.id

@@ -74,10 +74,10 @@
                     <group>
                         <field name="readonly_state" invisible="1"/>
                         <field name="description" />
-                        <field name="project_id" attrs="{'readonly': [('readonly_state', '=', 'True')]}"/>
+                        <field name="housing_project_id" attrs="{'readonly': [('readonly_state', '=', 'True')]}"/>
                         <field name="color" widget="color_picker" />
                         <field name="planned_delivery_date" />
-                        <field name="entity_ids" widget="many2many_tags" attrs="{'readonly': [('readonly_state', '=', 'True')]}"/>
+                        <field name="entity_ids" widget="many2many_tags" domain="['&amp;', ('batch_id', '=', False), ('housing_project_id', '=', housing_project_id)]" attrs="{'readonly': [('readonly_state', '=', 'True')]}" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -95,7 +95,7 @@
             <tree string="Housing batches">
                 <field name="name" />
                 <field name="color" widget="color_picker" nolabel="1" />
-                <field name="project_id" optional="show" />
+                <field name="housing_project_id" optional="show" />
                 <field name="planned_delivery_date" />
                 <field name="entity_ids" widget="many2many_tags" />
                 <field name="state" widget="badge" decoration-success="state == 'sale' or state == 'done'" optional="show"/>

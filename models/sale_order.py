@@ -7,7 +7,7 @@ class SaleOrder(models.Model):
     housing_batch_id = fields.Many2one(
         'jt.housing.batch', string='Housing batch', copy=False, tracking=True)
 
-    housing_project_id = fields.Many2one('jt.housing.project', related='housing_batch_id.project_id')
+    housing_project_id = fields.Many2one('jt.housing.project', related='housing_batch_id.housing_project_id')
 
     def go_to_housing_batch(self):
         self.ensure_one()

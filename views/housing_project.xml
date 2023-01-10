@@ -78,16 +78,16 @@
 
 <!-- 
                             'context': {
-                                'default_project_id': self.id,
+                                'default_housing_project_id': self.id,
                             },
                             'domain': [
-                                ['project_id', '=', self.id],
+                                ['housing_project_id', '=', self.id],
                             ],     -->
                             
                             
-                            <field name="entity_ids" widget="one2many" context="{'default_project_id': active_id}" domain="[('project_id', '=', active_id)]" >
+                            <field name="entity_ids" widget="one2many" context="{'default_housing_project_id': active_id}" domain="[('housing_project_id', '=', active_id)]" >
                                 <tree string="Entities">
-                                    <field name="project_id" invisible="1"/>
+                                    <field name="housing_project_id" invisible="1"/>
                                     <field name="name"/>
                                     <field name="description"/>
                                     <field name="batch_id"/>
@@ -125,7 +125,7 @@
         <field name="res_model">jt.housing.entity</field>
         <field name="view_mode">form</field>
         <field name="context">{
-            'project_id': 'active_id',
+            'housing_project_id': 'active_id',
         }</field>
         <field name="target">new</field>
     </record> -->
