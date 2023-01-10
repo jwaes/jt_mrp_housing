@@ -136,7 +136,7 @@ class HousingBatch(models.Model):
                 'name': product.display_name,
                 'order_id': sale_order.id,
                 'product_id': product.id,
-                'product_uom_qty': 1.0,
+                'product_uom_qty': qty,
             }
             order_line = self.env["sale.order.line"].create(order_line_vals)
 
@@ -153,15 +153,15 @@ class HousingBatch(models.Model):
         }    
 
 
-    def merge_duplicate_product_lines(self, res):
-        for line in res.order_line:
-            if line.id in res.order_line.ids:
-                line_ids = res.order_line.filtered(lambda m: m.product_id.id == line.product_id.id)
-                quantity = 0
-                for qty in line_ids:
-                    quantity += qty.product_uom_qty
-                    line_ids[0].write({'product_uom_qty': quantity, 'order_id': line_ids[0].order_id.id})
-                    line_ids[1:].unlink()
+    # def merge_duplicate_product_lines(self, res):
+    #     for line in res.order_line:
+    #         if line.id in res.order_line.ids:
+    #             line_ids = res.order_line.filtered(lambda m: m.product_id.id == line.product_id.id)
+    #             quantity = 0
+    #             for qty in line_ids:
+    #                 quantity += qty.product_uom_qty
+    #                 line_ids[0].write({'product_uom_qty': quantity, 'order_id': line_ids[0].order_id.id})
+    #                 line_ids[1:].unlink()
 
     def _prepare_quotation_context(self):
         self.ensure_one()
