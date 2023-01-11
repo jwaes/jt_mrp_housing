@@ -116,7 +116,7 @@ class HousingBatch(models.Model):
             'partner_id': quotation_partner.id,
             'origin': self.name,
             'company_id': self.housing_project_id.company_id.id or self.env.company.id,
-            'client_order_ref': ("%s: %s" % (self.housing_project_id.name, self.name)),
+            'client_order_ref': ("%s (%s)" % (self.housing_project_id.name, self.housing_project_id.reference)),
             'partner_shipping_id': self.housing_project_id.default_delivery_partner_id.id,
             'analytic_account_id': self.housing_project_id.analytic_account_id.id,
             'housing_batch_id': self.id,

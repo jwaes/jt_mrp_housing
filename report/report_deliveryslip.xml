@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[hasclass('page')]//div[1]" position="after">
+            <t t-set="housing_batch" t-value="o.sudo().sale_id.housing_batch_id"/>
+            <t t-if="housing_batch" t-call="jt_mrp_housing.report_housing_header"/>
+        </xpath>
+    </template>    
+
+</odoo>

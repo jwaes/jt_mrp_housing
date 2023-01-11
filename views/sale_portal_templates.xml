@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_order_portal_content" inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='informations']" position="after">
+            <t t-set="housing_batch" t-value="sale_order.sudo().housing_batch_id" />
+            <t t-if="housing_batch" t-call="jt_mrp_housing.report_housing_header" />
+        </xpath>
+    </template>
+
+</odoo>

@@ -19,19 +19,22 @@
     'version': '0.12',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','contacts','sale_management','sale_stock','account_accountant','analytic'],
+    'depends': ['base','contacts','sale','sale_management','sale_stock','account_accountant','analytic'],
 
     # always loaded
     'data': [
         'security/housing_security.xml',
         'security/ir.model.access.csv',
         'report/housing_report.xml',
+        'report/report_deliveryslip.xml',
+        'report/sale_report_templates.xml',
         'data/ir_sequence_data.xml',
         'views/housing_batch.xml',
         'views/housing_entity.xml',
         'views/housing_project.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
+        'views/sale_portal_templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
