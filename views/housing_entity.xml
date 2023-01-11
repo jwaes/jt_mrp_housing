@@ -65,6 +65,7 @@
             <search string="Entity">
                 <group expand="1" string="Group By">
                     <filter string="Housing project" name="type" context="{'group_by':'housing_project_id'}"/>
+                    <filter string="Housing batch" name="type" context="{'group_by':'batch_id'}"/>
                 </group>                
             </search>
         </field>
