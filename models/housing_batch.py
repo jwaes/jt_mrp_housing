@@ -6,12 +6,6 @@ from odoo.osv import expression
 
 _logger = logging.getLogger(__name__)
 
-
-# READONLY_FIELD_STATES = {
-#     state: [('readonly', True)]
-#     for state in {'quotation', 'sale', 'done', 'cancel'}
-# }
-
 class HousingBatch(models.Model):
     _name = 'jt.housing.batch'
     _description = 'Housing batch'
@@ -113,9 +107,13 @@ class HousingBatch(models.Model):
         if not lines:
             return None
 
+        quotation_partner = self.partner_id
+        if self.housing_project_id.responsibles_ids:
+            quotation_partner = self.housing_project_id.responsibles_ids[0]
+
         sale_order_vals = {
             'name': self.env['ir.sequence'].next_by_code('sale.order'),
-            'partner_id': self.partner_id.id,
+            'partner_id': quotation_partner.id,
             'origin': self.name,
             'company_id': self.housing_project_id.company_id.id or self.env.company.id,
             'client_order_ref': ("%s: %s" % (self.housing_project_id.name, self.name)),
@@ -129,8 +127,11 @@ class HousingBatch(models.Model):
         sale_order = self.env["sale.order"].create(sale_order_vals)
 
         products = lines.mapped('product_id')
-        for product in products:            
-            qty = sum(lines.search([('product_id.id', '=', product.id)]).mapped('product_qty'))
+        for product in products:
+            # this_product_lines = lines.search([('product_id.id', '=', product.id)])
+            this_product_lines = lines.filtered(lambda r: r.product_id == product)
+            this_product_qties = this_product_lines.mapped('product_qty')
+            qty = sum(this_product_qties)
             _logger.info("product %s needs %s in total", product.name, qty)
             order_line_vals = {
                 'name': product.display_name,
@@ -151,18 +152,7 @@ class HousingBatch(models.Model):
             "type": "ir.actions.act_window",
             "res_id": sale_order.id,
             "context": self.env.context,
-        }    
-
-
-    # def merge_duplicate_product_lines(self, res):
-    #     for line in res.order_line:
-    #         if line.id in res.order_line.ids:
-    #             line_ids = res.order_line.filtered(lambda m: m.product_id.id == line.product_id.id)
-    #             quantity = 0
-    #             for qty in line_ids:
-    #                 quantity += qty.product_uom_qty
-    #                 line_ids[0].write({'product_uom_qty': quantity, 'order_id': line_ids[0].order_id.id})
-    #                 line_ids[1:].unlink()
+        }
 
     def _prepare_quotation_context(self):
         self.ensure_one()

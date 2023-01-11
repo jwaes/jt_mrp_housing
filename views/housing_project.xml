@@ -71,7 +71,7 @@
                         <field name="analytic_account_id"/>
                         <field name="incoterm_id"/>
                         <field name="discount"/>
-                        <field name="default_delivery_partner_id"/>
+                        <field name="default_delivery_partner_id" domain="[('type','=','delivery')]"/>
                         <field name="company_id" invisible="1"/>
                         <field name="user_id" widget="many2one_avatar_user"/>
                     </group>
