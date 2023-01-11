@@ -25,13 +25,12 @@
                 <strong>Housing entities:</strong>
                 <ul class="list-unstyled">
                     <t t-foreach="housing_batch.entity_ids" t-as="entity">
-                        <li><i class="fa fa-home" aria-hidden="true"></i> <span t-esc="entity.name"/> <span t-if="entity.description">(<t t-esc="entity.description"/>)</span></li>
+                        <li><i class="fa fa-home" aria-hidden="true"></i> <span t-esc="entity.name"/></li>
                     </t>
                 </ul>
             </div>           
 
         </div>
     </template>
-
-
+    
 </odoo>
