@@ -19,7 +19,7 @@
     'version': '0.13',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','contacts','sale','sale_management','sale_stock','account_accountant','analytic'],
+    'depends': ['base','contacts','sale','sale_management','sale_stock','account_accountant','analytic','portal'],
 
     # always loaded
     'data': [
@@ -32,6 +32,7 @@
         'views/housing_batch.xml',
         'views/housing_entity.xml',
         'views/housing_project.xml',
+        'views/portal_templates.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
         'views/sale_portal_templates.xml',

@@ -3,6 +3,7 @@ import logging
 import re
 from odoo import models, fields, api
 from odoo.osv import expression
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ class HousingProject(models.Model):
     _description = 'Housing project'
     _order = 'priority desc, sequence, code'
     _check_company_auto = True  
-    _inherit = 'mail.thread'  
+    _inherit = ['portal.mixin', 'mail.thread']
 
     priority = fields.Selection([
         ('0', 'Normal'),
@@ -63,10 +64,28 @@ class HousingProject(models.Model):
     quotation_count = fields.Integer(compute='_compute_sale_count', string="Number of Quotations")
     sale_order_count = fields.Integer(compute='_compute_sale_count', string="Number of Sale Orders")
 
+    reinvoice_sale_order_id = fields.Many2one('sale.order', compute="_compute_reinvoice_sale_order", string='Re-Invoice order')
+
     _sql_constraints = [
         ('unique_entity', 'UNIQUE(code)', 'The code must be unique for this project'),
     ]
     
+
+    def _compute_reinvoice_sale_order(self):
+        for project in self:
+            if not project.analytic_account_id:
+                project.reinvoice_sale_order_id = False
+            else: 
+                orders = self.env['sale.order'].search([('analytic_account_id', '=', project.analytic_account_id.id)])
+                order_count = len(orders)
+                if order_count > 1:
+                    raise UserError("More than one order with analytic account")
+                    project.reinvoice_sale_order_id = orders[0]
+                elif order_count == 1:
+                    project.reinvoice_sale_order_id = orders[0]
+                else :
+                    project.reinvoice_sale_order_id = False
+
 
     def _get_sale_order_domain(self):
         return [('state', 'not in', ('draft', 'sent', 'cancel'))]
@@ -198,3 +217,47 @@ class HousingProject(models.Model):
         #     action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
         #     action['res_id'] = orders.id
         return action
+
+    def _compute_access_url(self):
+        super(HousingProject, self)._compute_access_url()
+        for hp in self:
+            hp.access_url = '/my/housing/project/%s' % (hp.id)        
+
+    def action_create_reinvoice_quotation(self):
+        # action = self.env["ir.actions.actions"]._for_xml_id("jt_mrp_housing.sale_action_quotations_new")
+        # action['context'] = self._prepare_quotation_context()
+
+        self.ensure_one()
+
+        if self.reinvoice_sale_order_id :
+            raise UserError("A re-invoice SO already exists")
+
+        quotation_partner = self.partner_id
+        if self.responsibles_ids:
+            quotation_partner = self.responsibles_ids[0]
+
+        sale_order_vals = {
+            'name': self.env['ir.sequence'].next_by_code('sale.order'),
+            'partner_id': quotation_partner.id,
+            'origin': self.name,
+            'company_id': self.company_id.id or self.env.company.id,
+            'client_order_ref': ("%s (%s) Re-Invoice" % (self.name, self.reference)),
+            'partner_shipping_id': self.default_delivery_partner_id.id,
+            'analytic_account_id': self.analytic_account_id.id,
+            'housing_project_id': self.id,
+            'incoterm': self.incoterm_id.id,
+        }    
+
+        sale_order = self.env["sale.order"].create(sale_order_vals)
+
+        view = self.env.ref("sale.view_order_form")
+
+        return {
+            "name": "New Quotation",
+            "view_mode": "form",
+            "view_id": view.id,
+            "res_model": "sale.order",
+            "type": "ir.actions.act_window",
+            "res_id": sale_order.id,
+            "context": self.env.context,
+        }

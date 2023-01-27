@@ -69,6 +69,7 @@
                         <field name="onsite_ids" widget="many2many_tags" attrs="{'readonly': [('partner_id', '=', False)]}"/>
                         <field name="reference" />
                         <field name="analytic_account_id"/>
+                        <field name="reinvoice_sale_order_id"/>
                         <field name="incoterm_id"/>
                         <field name="discount"/>
                         <field name="default_delivery_partner_id" domain="[('type','=','delivery')]"/>
@@ -119,6 +120,17 @@
                 <field name="batch_count"/>
                 <field name="entity_count" />
             </tree>
+        </field>
+    </record>
+
+    <record id="action_housing_project_create_reinvoice_sale_order" model="ir.actions.server">
+        <field name="name">Create re-invoice sale order</field>
+        <field name="model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
+        <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.action_create_reinvoice_quotation()
         </field>
     </record>
 
