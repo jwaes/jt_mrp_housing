@@ -18,19 +18,19 @@
 
             <div class="col-auto">
                 <strong>Housing batch:</strong>
-                <p class="m-0"><i class="fa fa-wrench" aria-hidden="true"></i> <span t-esc="housing_batch.name"/></p>
+                <p class="m-0"><i class="fa fa-wrench"></i> <span t-esc="housing_batch.name"/></p>
             </div>
 
             <div class="col-auto">
                 <strong>Housing entities:</strong>
                 <ul class="list-unstyled">
                     <t t-foreach="housing_batch.entity_ids" t-as="entity">
-                        <li><i class="fa fa-home" aria-hidden="true"></i> <span t-esc="entity.name"/></li>
+                        <li><i class="fa fa-home"></i> <span t-esc="entity.name"/></li>
                     </t>
                 </ul>
             </div>           
 
         </div>
     </template>
-    
+
 </odoo>

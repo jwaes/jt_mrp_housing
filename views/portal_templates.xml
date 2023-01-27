@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_housing" name="Show Housing projects" customize_show="True"
+        inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Housing projects</t>
+                <t t-set="url" t-value="'/my/housing/projects/'" />
+                <t t-set="placeholder_count" t-value="'housing_project_count'" />
+            </t>
+            <!-- <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Sales
+            Orders</t>
+                <t t-set="url" t-value="'/my/orders'"/>
+                <t
+            t-set="placeholder_count" t-value="'order_count'"/>
+            </t> -->
+        </xpath>
+    </template>
+
+    <template id="portal_my_housing_projects" name="My Housing Projects">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Housing projects</t>
+            </t>
+            <t t-if="not housing_projects">
+                <p>There are currently no housing projects for your account.</p>
+            </t>
+            <t t-if="housing_projects" t-call="portal.portal_table">
+
+                <thead>
+                    <tr class="active">
+                        <th>Housing project #</th>
+                        <th class="text-right">Name</th>
+                        <th class="text-right">Entities</th>
+                        <th class="text-right">Batches</th>
+                    </tr>
+                </thead>
+                <t t-foreach="housing_projects" t-as="hp">
+                    <tr>
+                        <td>
+                            <a t-att-href="hp.get_portal_url()">
+                                <t t-esc="hp.composite_code" />
+                            </a>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="hp.name" />
+                        </td>
+                        <td class="text-right">
+                            <span t-field="hp.entity_count" />
+                        </td>
+                        <td class="text-right">
+                            <span t-field="hp.batch_count" />
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_housing_project" name="My Housing Project">
+        <t t-call="portal.portal_layout">
+
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Housing project</t>
+            </t>
+
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-12">
+                            <h5 class="d-flex mb-1 mb-md-0 row">
+                                <div class="col-9">
+                                    <!-- <t
+                                    t-call="project.portal_my_tasks_priority_widget_template"/> -->
+                                    <span t-field="hp.name" class="text-truncate" />
+                                    <!-- <small class="text-muted d-none d-md-inline"> (#<span
+                                    t-field="task.id"/>)</small> -->
+                                </div>
+                                <div class="col-3 text-right">
+                                    <small class="text-right">Stage:</small>
+                                    <!-- <span t-field="task.stage_id.name" class=" badge badge-pill
+                                    badge-info" title="Current stage of this task"/> -->
+                                </div>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div class="row my-2">
+                        <div class="col-12 col-md-6">
+                            <strong>Project name:</strong>
+                            <span t-field="hp.name" />
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12 col-md-6">
+                            <strong>Project code:</strong>
+                            <span t-field="hp.composite_code" />
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12 col-md-6">
+                            <strong>Reference:</strong>
+                            <span t-field="hp.reference" />
+                        </div>
+                    </div>
+                    <div class="row my-2" t-if="hp">
+                        <div class="col-12 col-md-6 pb-2" t-if="hp.responsibles_ids">
+                            <strong>Project contacts</strong>
+                            <div class="row">
+                                <t t-foreach="hp.responsibles_ids" t-as="user">
+                                    <div class="col d-flex align-items-center flex-grow-0 pr-3">
+                                        <img class="rounded-circle mt-1 o_portal_contact_img"
+                                            t-att-src="image_data_uri(user.avatar_1024)"
+                                            alt="Contact" />
+                                    </div>
+                                    <div class="col pl-md-0">
+                                        <div t-esc="user"
+                                            t-options='{"widget": "contact", "fields": ["name"]}' />
+                                        <a t-attf-href="mailto:{{user.email}}" t-if="user.email">
+                                            <div t-esc="user"
+                                                t-options='{"widget": "contact", "fields": ["email"]}' />
+                                        </a>
+                                        <a t-attf-href="tel:{{user.phone}}" t-if="user.phone">
+                                            <div t-esc="user"
+                                                t-options='{"widget": "contact", "fields": ["phone"]}' />
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2" t-if="hp.onsite_ids">
+                            <strong>On-site contacts</strong>
+                            <div class="row">
+                                <t t-foreach="hp.onsite_ids" t-as="user">
+                                    <div class="col d-flex align-items-center flex-grow-0 pr-3">
+                                        <img class="rounded-circle mt-1 o_portal_contact_img"
+                                            t-att-src="image_data_uri(user.avatar_1024)"
+                                            alt="Contact" />
+                                    </div>
+                                    <div class="col pl-md-0">
+                                        <div t-esc="user"
+                                            t-options='{"widget": "contact", "fields": ["name"]}' />
+                                        <a t-attf-href="mailto:{{user.email}}" t-if="user.email">
+                                            <div t-esc="user"
+                                                t-options='{"widget": "contact", "fields": ["email"]}' />
+                                        </a>
+                                        <a t-attf-href="tel:{{user.phone}}" t-if="user.phone">
+                                            <div t-esc="user"
+                                                t-options='{"widget": "contact", "fields": ["phone"]}' />
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-12 col-md-6 text-center">
+                            <strong>Entities:</strong>
+                            <t t-if="len(hp.entity_ids) > 0">
+                                <h1><a t-attf-href="/my/housing/project/{{ hp.id }}/entities?{{ keep_query() }}" t-esc="len(hp.entity_ids)" class="fa fa-home"/></h1>
+                            </t>
+                            <t t-else="">
+                                No entities
+                            </t>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <strong>Batches:</strong>
+                            <h1><i class="fa fa-wrench"></i><span t-esc="len(hp.batch_ids)" /></h1>
+                        </div>                        
+                    </div>
+
+                </t>
+            </t>
+
+            <!-- chatter -->
+            <div id="housing_project_communication" class="mt-4">
+                <h2>History</h2>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="hp" />
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_my_home_menu_housing_projects"
+        name="Portal layout : housing projects menu entries" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <t t-if="page_name == 'housing_projects'">
+                <li t-attf-class="breadcrumb-item #{'active ' if not hp else ''}">
+                    <a t-if="hp" t-attf-href="/my/housing/projects?{{ keep_query() }}">Housing
+                        projects</a>
+                    <t t-else="">Housing projects</t>
+                </li>
+                <li t-if="hp" class="breadcrumb-item active">
+                    <t t-esc="hp.name" />
+                </li>
+            </t>
+            <t t-if="page_name == 'housing_project_entities'">
+                <li class="breadcrumb-item">
+                    <a t-if="hp" t-attf-href="/my/housing/projects?{{ keep_query() }}">Housing
+                        projects</a>
+                    <t t-else="">Housing projects</t>
+                </li>
+                <li t-if="hp" class="breadcrumb-item">
+                    <a t-attf-href="/my/housing/project/{{ hp.id }}?{{ keep_query() }}" t-esc="hp.name" />
+                </li>
+                <li class="breadcrumb-item active">
+                    Entities
+                </li>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_housing_project_entities" name="My Housing project entitites">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Housing entities</t>
+            </t>
+
+            <t t-if="not hp.entity_ids">
+                <p>There are currently no housing entities for your this project.</p>
+            </t>
+
+            <t t-if="hp.entity_ids" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Entity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="hp.entity_ids" t-as="he">
+                        <tr>
+                            <td>
+                                <t t-esc="he.name" />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+
+        </t>
+    </template>
+
+</odoo>
