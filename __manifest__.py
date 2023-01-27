@@ -16,7 +16,7 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.15',
+    'version': '0.16',
 
     # any module necessary for this one to work correctly
     'depends': ['base','contacts','sale','sale_management','sale_stock','account_accountant','analytic','portal'],
@@ -35,7 +35,7 @@
         'views/portal_templates.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
-        'views/sale_portal_templates.xml',
+        # 'views/sale_portal_templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
