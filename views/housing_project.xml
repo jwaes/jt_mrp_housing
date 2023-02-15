@@ -9,7 +9,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
 
-                        <div class="btn oe_stat_button">
+                        <button class="btn oe_stat_button" disabled="1">
                             <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">
@@ -17,7 +17,7 @@
                                 </span>
                                 <span>bottles</span>
                             </div>
-                        </div>
+                        </button>
 
                         <button class="oe_stat_button" type="object"
                             name="action_view_sale_quotation" icon="fa-pencil-square-o">
