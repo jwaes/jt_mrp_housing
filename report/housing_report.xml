@@ -50,6 +50,9 @@
                                 </t>
                             </tbody>
                         </table>
+                        <div id="recycled_product" t-if='o.bottles &gt; 0' style="color:#607568" class=" mt-4 p-2 bg-light">
+                            <h5 class="align-middle mb-0"><img class=" mr-2" src="/jt_product_repeat/static/src/img/bottle.svg"/>This project uses <span t-esc="o.bottles"/> recycled 1.5l PET bottles or the equivalent in PET waste.</h5>
+                        </div>                           
                     </div>
                 </t>
             </t>
@@ -104,6 +107,9 @@
                                     <tr>
                                         <td>
                                             <span t-field="line.product_id" />
+                                            <t t-if="line.product_id.bottle_equivalent &gt; 0.0">
+                                                <i class="fa fa-recycle" style="color:#607568"></i>
+                                            </t>                                            
                                         </td>
                                         <td class="text-end">
                                             <span t-field="line.product_qty" />
@@ -116,6 +122,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div id="recycled_product" t-if='o.bottles &gt; 0' style="color:#607568" class=" mt-4 p-2 bg-light">
+                        <h5 class="align-middle mb-0"><img class=" mr-2" src="/jt_product_repeat/static/src/img/bottle.svg"/>This entity uses <span t-esc="o.bottles"/> recycled 1.5l PET bottles or the equivalent in PET waste.</h5>
+                    </div>                    
                 </t>
             </t>
         </t>

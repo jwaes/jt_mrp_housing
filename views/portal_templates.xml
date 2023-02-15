@@ -190,7 +190,7 @@
         </t>
     </template>
 
-    <!-- <template id="portal_my_home_menu_housing_projects"
+    <template id="portal_my_home_menu_housing_projects"
         name="Portal layout : housing projects menu entries" inherit_id="portal.portal_breadcrumbs">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <t t-if="page_name == 'housing_projects'">
@@ -217,7 +217,7 @@
                 </li>
             </t>
         </xpath>
-    </template> -->
+    </template>
 
     <template id="portal_my_housing_project_entities" name="My Housing project entitites">
         <t t-call="portal.portal_layout">

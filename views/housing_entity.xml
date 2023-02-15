@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="action_housing_entity_calculate_bottles" model="ir.actions.server">
+        <field name="name">Re-calculate bottles</field>
+        <field name="model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
+        <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records._compute_bottles()
+        </field>
+    </record>    
     <record id="housing_entity_view_form" model="ir.ui.view">
         <field name="name">jt.housing.entity.form</field>
         <field name="model">jt.housing.entity</field>
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+
+                        <div class="btn oe_stat_button">
+                            <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="bottles" t-options='{"widget": "float", "precision": 0}'/>                            
+                                </span>
+                                <span>bottles</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="oe_title">
                         <h1>
                             <field name="code" class="oe_edit_only"/>

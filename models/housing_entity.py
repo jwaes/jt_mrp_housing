@@ -33,6 +33,19 @@ class HousingEntity(models.Model):
     state = fields.Selection(related='batch_id.state')
 
     readonly_state = fields.Boolean(compute='_compute_readonly_state', string='readonly_state')
+
+    bottles = fields.Integer(compute='_compute_bottles', string='Bottles', store=True)
+    
+    @api.depends('bom_line_ids', 'bom_line_ids.product_id', 'bom_line_ids.product_qty')
+    def _compute_bottles(self):
+        for entity in self:
+            bottles = 0
+            for bom_line in entity.bom_line_ids:
+                if bom_line.product_id.bottle_equivalent > 0.0:
+                    bom_line_bottles = bom_line.product_id.bottle_equivalent * bom_line.product_qty
+                    bottles += bom_line_bottles
+            entity.bottles = bottles
+    
     
     @api.depends('batch_id', 'batch_id.readonly_state')
     def _compute_readonly_state(self):    

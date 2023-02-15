@@ -71,6 +71,16 @@ class HousingProject(models.Model):
     ]
     
 
+    bottles = fields.Integer(compute='_compute_bottles', string='Bottles', store=True)
+    
+    @api.depends('entity_ids', 'entity_ids.bottles')
+    def _compute_bottles(self):
+        for project in self:
+            bottles = 0
+            for entity in project.entity_ids:
+                bottles += entity.bottles
+            project.bottles = bottles
+
     def _compute_reinvoice_sale_order(self):
         for project in self:
             if not project.analytic_account_id:
