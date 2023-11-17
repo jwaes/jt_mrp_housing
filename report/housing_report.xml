@@ -106,10 +106,13 @@
                                 <t t-foreach="o.bom_line_ids" t-as="line">
                                     <tr>
                                         <td>
-                                            <span t-field="line.product_id" />
+                                            <span class="text-muted small">[<span t-field="line.product_id.default_code" />]</span>
+                                            <div>
+                                            <span t-field="line.product_id.name" />
                                             <t t-if="line.product_id.bottle_equivalent &gt; 0.0">
                                                 <i class="fa fa-recycle" style="color:#607568"></i>
-                                            </t>                                            
+                                            </t> 
+                                            </div>                                           
                                         </td>
                                         <td class="text-end">
                                             <span t-field="line.product_qty" />
