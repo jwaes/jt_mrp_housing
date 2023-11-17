@@ -8,4 +8,19 @@
         </xpath>
     </template>
 
+    <template id="portal_my_orders" inherit_id="sale.portal_my_orders">
+        <xpath expr="//th[1]" position="after">
+            <th>Contact</th>
+            <th>Project</th>
+        </xpath>
+        <xpath expr="//td[1]" position="after">
+            <td>
+                <span t-field="order.partner_id.name"/>
+            </td>
+            <td>
+                <span t-field="order.housing_project_id.name"/>
+            </td>
+        </xpath>        
+    </template>
+
 </odoo>

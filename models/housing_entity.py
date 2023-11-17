@@ -27,6 +27,7 @@ class HousingEntity(models.Model):
 
     housing_project_id = fields.Many2one('jt.housing.project', string='Housing project', required=True)
     batch_id = fields.Many2one('jt.housing.batch', string='Batch', copy=False, domain="[('housing_project_id', '=', project_id)]")
+    planned_delivery_date = fields.Date('Planned date', related="batch_id.planned_delivery_date", readonly=True)
 
     bom_line_ids = fields.One2many('jt.housing.bom.line', 'entity_id', 'BoM Lines', copy=True, tracking=True)
 

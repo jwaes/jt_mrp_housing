@@ -107,6 +107,9 @@
                                 </tree>
                             </field>
                         </page>
+                        <page name="notes" string="Notes">
+                            <field name="notes" placeholder="Notes on this project go here ... "/>
+                        </page>
                     </notebook>                    
                 </sheet>
                 <div class="oe_chatter">

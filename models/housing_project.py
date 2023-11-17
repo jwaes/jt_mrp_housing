@@ -69,7 +69,8 @@ class HousingProject(models.Model):
     _sql_constraints = [
         ('unique_entity', 'UNIQUE(code)', 'The code must be unique for this project'),
     ]
-    
+
+    notes = fields.Html('Notes', sanitize=True)
 
     bottles = fields.Integer(compute='_compute_bottles', string='Bottles', store=True)
     
