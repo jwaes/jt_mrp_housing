@@ -28,6 +28,8 @@ class HousingBatch(models.Model):
     quotation_count = fields.Integer(compute='_compute_sale_count', string="Number of Quotations")
     sale_order_count = fields.Integer(compute='_compute_sale_count', string="Number of Sale Orders")
 
+    logistics_product_id = fields.Many2one('product.product', string='Logistics Product')
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('quotation', 'Quotation'),
@@ -142,6 +144,18 @@ class HousingBatch(models.Model):
                 'discount': self.housing_project_id.discount,
             }
             order_line = self.env["sale.order.line"].create(order_line_vals)
+
+
+        if self.logistics_product_id:
+            product = self.logistics_product_id
+            order_line_vals = {
+                'name': product.display_name,
+                'order_id': sale_order.id,
+                'product_id': product.id,
+                'product_uom_qty': 1,
+            }
+            order_line = self.env["sale.order.line"].create(order_line_vals)            
+
 
         view = self.env.ref("sale.view_order_form")
 
