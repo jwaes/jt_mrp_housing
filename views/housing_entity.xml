@@ -1,104 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="action_housing_entity_calculate_bottles" model="ir.actions.server">
-        <field name="name">Re-calculate bottles</field>
-        <field name="model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
-        <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
-        <field name="state">code</field>
-        <field name="code">
-            if records:
-                records._compute_bottles()
-        </field>
-    </record>    
-    <record id="housing_entity_view_form" model="ir.ui.view">
-        <field name="name">jt.housing.entity.form</field>
-        <field name="model">jt.housing.entity</field>
-        <field name="arch" type="xml">
-            <form string="">
-                <sheet>
-
-                    <div class="oe_button_box" name="button_box">
-
-                        <button class="btn oe_stat_button" disabled="1">
-                            <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="bottles" t-options='{"widget": "float", "precision": 0}'/>                            
-                                </span>
-                                <span>bottles</span>
-                            </div>
-                        </button>
-                    </div>
-
-                    <div class="oe_title">
-                        <h1>
-                            <field name="code" class="oe_edit_only"/>
-                            <field name="name" readonly="True"/>
-                        </h1>
-                        <h2>                            
-                            <field name="description" placeholder="Description ..." />                            
-                        </h2>
-                    </div>
-                    <group>
-                        
-                        <field name="housing_project_id" attrs="{'readonly': [('readonly_state', '=', True)]}" />
-                        <field name="state" invisible="1"/>
-                        <field name="readonly_state" invisible="1"/>
-                        <field name="batch_id" domain="['&amp;', ('housing_project_id', '=', housing_project_id), ('state', 'in', ['draft',])]" attrs="{'readonly': [('readonly_state', '=', True)]}" />
-                    </group>
-                    <notebook>
-                        <page name="bom_lines" string="Lines">
-                            <field name="bom_line_ids" widget="one2many" attrs="{'readonly': [('readonly_state', '=', True)]}">
-                                <tree string="Components" editable="bottom" >
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="product_id" context="{'default_detailed_type': 'product'}"/>
-                                    <field name="product_qty"/>
-                                    <field name="product_uom_id"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="message_ids" />
-                </div>
-            </form>
-        </field>
-    </record>
-
-    <record id="housing_entity_view_tree" model="ir.ui.view">
-        <field name="name">jt.housing.entity.view.tree</field>
-        <field name="model">jt.housing.entity</field>
-        <field name="arch" type="xml">
-            <tree string="Housing entities">
-                <field name="sequence" widget="handle" />
-                <field name="priority" widget="priority" optional="show" nolabel="1"/>
-                <field name="name" />
-                <field name="description" optional="show"/>
-                <field name="batch_id" widget="badge" options="{'color_field': 'color'}"/>
-                <field name="planned_delivery_date"/>
-                <field name="state" widget="badge" decoration-success="state == 'sale' or state == 'done'" optional="show"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="housing_entity_view_search" model="ir.ui.view">
-        <field name="name">jt.housing.entity.search</field>
-        <field name="model">jt.housing.entity</field>
-        <field name="arch" type="xml">
-            <search string="Entity">
-                <group expand="1" string="Group By">
-                    <filter string="Housing project" name="type" context="{'group_by':'housing_project_id'}"/>
-                    <filter string="Housing batch" name="type" context="{'group_by':'batch_id'}"/>
-                </group>                
-            </search>
-        </field>
-    </record>
-
-
-    <!-- <record id="action_housing_project_entities_list" model="ir.actions.act_window">
+ <record id="action_housing_entity_calculate_bottles" model="ir.actions.server">
+  <field name="name">Re-calculate bottles</field>
+  <field name="model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
+  <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_entity"/>
+  <field name="state">code</field>
+  <field name="code">if records:
+                records._compute_bottles()</field>
+ </record>
+ <record id="housing_entity_view_form" model="ir.ui.view">
+  <field name="name">jt.housing.entity.form</field>
+  <field name="model">jt.housing.entity</field>
+  <field name="arch" type="xml">
+   <form string="">
+    <sheet>
+     <div class="oe_button_box" name="button_box">
+      <button class="btn oe_stat_button" disabled="1">
+       <img alt="bottles" class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px"/>
+       <div class="o_field_widget o_stat_info">
+        <span class="o_stat_value">
+         <field name="bottles" t-options='{"widget": "float", "precision": 0}'/>
+        </span>
+        <span>
+         bottles
+        </span>
+       </div>
+      </button>
+     </div>
+     <div class="oe_title">
+      <h1>
+       <field class="oe_edit_only" name="code"/>
+       <field name="name" readonly="True"/>
+      </h1>
+      <h2>
+       <field name="description" placeholder="Description ..."/>
+      </h2>
+     </div>
+     <group>
+      <field name="housing_project_id" readonly="readonly_state == True"/>
+      <field invisible="1" name="state"/>
+      <field invisible="1" name="readonly_state"/>
+      <field domain="['&', ('housing_project_id', '=', housing_project_id), ('state', 'in', ['draft',])]" name="batch_id" readonly="readonly_state == True"/>
+     </group>
+     <notebook>
+      <page name="bom_lines" string="Lines">
+       <field name="bom_line_ids" readonly="readonly_state == True" widget="one2many">
+        <tree editable="bottom" string="Components">
+         <field name="sequence" widget="handle"/>
+         <field context="{'default_detailed_type': 'product'}" name="product_id"/>
+         <field name="product_qty"/>
+         <field name="product_uom_id"/>
+        </tree></field>
+      </page>
+     </notebook>
+    </sheet>
+    <div class="oe_chatter">
+     <field name="message_follower_ids"/>
+     <field name="message_ids"/>
+    </div>
+   </form></field>
+ </record>
+ <record id="housing_entity_view_tree" model="ir.ui.view">
+  <field name="name">jt.housing.entity.view.tree</field>
+  <field name="model">jt.housing.entity</field>
+  <field name="arch" type="xml">
+   <tree string="Housing entities">
+    <field name="sequence" widget="handle"/>
+    <field name="priority" nolabel="1" optional="show" widget="priority"/>
+    <field name="name"/>
+    <field name="description" optional="show"/>
+    <field name="batch_id" options="{'color_field': 'color'}" widget="badge"/>
+    <field name="planned_delivery_date"/>
+    <field decoration-success="state == 'sale' or state == 'done'" name="state" optional="show" widget="badge"/>
+   </tree></field>
+ </record>
+ <record id="housing_entity_view_search" model="ir.ui.view">
+  <field name="name">jt.housing.entity.search</field>
+  <field name="model">jt.housing.entity</field>
+  <field name="arch" type="xml">
+   <search string="Entity">
+    <group expand="1" string="Group By">
+     <filter context="{'group_by':'housing_project_id'}" name="type" string="Housing project"/>
+     <filter context="{'group_by':'batch_id'}" name="type" string="Housing batch"/>
+    </group>
+   </search></field>
+ </record>
+ <!-- <record id="action_housing_project_entities_list" model="ir.actions.act_window">
         <field name="name">Entities</field>
         <field name="res_model">jt.housing.entity</field>
         <field name="view_mode">tree,form</field>
@@ -109,5 +96,4 @@
         }</field>
         <field name="target">current</field>        
     </record>     -->
-
 </odoo>

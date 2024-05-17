@@ -1,153 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="housing_project_view_form" model="ir.ui.view">
-        <field name="name">jt.housing.project.form</field>
-        <field name="model">jt.housing.project</field>
-        <field name="arch" type="xml">
-            <form string="">
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-
-                        <button class="btn oe_stat_button" disabled="1">
-                            <img class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" alt="bottles" style="width:30px; height:44px"/>
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="bottles" t-options='{"widget": "float", "precision": 0}'/>                            
-                                </span>
-                                <span>bottles</span>
-                            </div>
-                        </button>
-
-                        <button class="oe_stat_button" type="object"
-                            name="action_view_sale_quotation" icon="fa-pencil-square-o">
-                            <field name="quotation_count" widget="statinfo" string="Quotations" />
-                        </button>
-                        <button class="oe_stat_button" type="object" attrs="{'invisible': [('sale_order_count', '=', 0)]}"
-                            name="action_view_sale_order" icon="fa-usd">
-                            <div class="o_field_widget o_stat_info">
-                                <field name="sale_order_count" widget="statinfo" string="Orders" />
-                            </div>
-                        </button>
-
-                        <button class="oe_stat_button"
-                            name="open_housing_project_batches"
-                            icon="fa-wrench"
-                            type="object">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="batch_count" />
-                                </span>
-                                <span attrs="{'invisible': [('batch_count', '=', 1)]}">
-                                 Batches
-                             </span>
-                                <span attrs="{'invisible': [('batch_count', '!=', 1)]}">
-                                 Batch
-                             </span>
-                            </div>
-                        </button>       
-                        
-                        <button class="oe_stat_button"
-                            name="open_housing_project_entities"
-                            icon="fa-home"
-                            type="object">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="entity_count" />
-                                </span>
-                                <span attrs="{'invisible': [('entity_count', '=', 1)]}">
-                                 Entities
-                             </span>
-                                <span attrs="{'invisible': [('entity_count', '!=', 1)]}">
-                                 Entity
-                             </span>
-                            </div>
-                        </button>                        
-                    </div>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Name ..." />
-                        </h1>
-                        <h2>
-                            <field name="code" class="oe_edit_only" />
-                            <field name="composite_code" readonly="True" />
-                        </h2>
-                    </div>
-                    <group>
-                        <field name="partner_id" domain="[('is_company','=',True)]" />
-                        <field name="responsibles_ids" widget="many2many_tags" attrs="{'readonly': [('partner_id', '=', False)]}"/>
-                        <field name="onsite_ids" widget="many2many_tags" attrs="{'readonly': [('partner_id', '=', False)]}"/>
-                        <field name="reference" />
-                        <field name="analytic_account_id"/>
-                        <field name="reinvoice_sale_order_id"/>
-                        <field name="incoterm_id"/>
-                        <field name="discount"/>
-                        <field name="default_delivery_partner_id" domain="[('type','=','delivery')]"/>
-                        <field name="company_id" invisible="1"/>
-                        <field name="user_id" widget="many2one_avatar_user"/>
-                    </group>
-                    <notebook>
-                        <page name="entities" string="Entities">
-
-<!-- 
+ <record id="housing_project_view_form" model="ir.ui.view">
+  <field name="name">jt.housing.project.form</field>
+  <field name="model">jt.housing.project</field>
+  <field name="arch" type="xml">
+   <form string="">
+    <sheet>
+     <div class="oe_button_box" name="button_box">
+      <button class="btn oe_stat_button" disabled="1">
+       <img alt="bottles" class="o_button_icon fa" src="/jt_product_repeat/static/src/img/bottle.svg" style="width:30px; height:44px"/>
+       <div class="o_field_widget o_stat_info">
+        <span class="o_stat_value">
+         <field name="bottles" t-options='{"widget": "float", "precision": 0}'/>
+        </span>
+        <span>
+         bottles
+        </span>
+       </div>
+      </button>
+      <button class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_sale_quotation" type="object">
+       <field name="quotation_count" string="Quotations" widget="statinfo"/>
+      </button>
+      <button class="oe_stat_button" icon="fa-usd" invisible="sale_order_count == 0" name="action_view_sale_order" type="object">
+       <div class="o_field_widget o_stat_info">
+        <field name="sale_order_count" string="Orders" widget="statinfo"/>
+       </div>
+      </button>
+      <button class="oe_stat_button" icon="fa-wrench" name="open_housing_project_batches" type="object">
+       <div class="o_field_widget o_stat_info">
+        <span class="o_stat_value">
+         <field name="batch_count"/>
+        </span>
+        <span invisible="batch_count == 1">
+         Batches
+        </span>
+        <span invisible="batch_count != 1">
+         Batch
+        </span>
+       </div>
+      </button>
+      <button class="oe_stat_button" icon="fa-home" name="open_housing_project_entities" type="object">
+       <div class="o_field_widget o_stat_info">
+        <span class="o_stat_value">
+         <field name="entity_count"/>
+        </span>
+        <span invisible="entity_count == 1">
+         Entities
+        </span>
+        <span invisible="entity_count != 1">
+         Entity
+        </span>
+       </div>
+      </button>
+     </div>
+     <div class="oe_title">
+      <h1>
+       <field name="name" placeholder="Name ..."/>
+      </h1>
+      <h2>
+       <field class="oe_edit_only" name="code"/>
+       <field name="composite_code" readonly="True"/>
+      </h2>
+     </div>
+     <group>
+      <field domain="[('is_company','=',True)]" name="partner_id"/>
+      <field name="responsibles_ids" readonly="partner_id == False" widget="many2many_tags"/>
+      <field name="onsite_ids" readonly="partner_id == False" widget="many2many_tags"/>
+      <field name="reference"/>
+      <field name="analytic_account_id"/>
+      <field name="reinvoice_sale_order_id"/>
+      <field name="incoterm_id"/>
+      <field name="discount"/>
+      <field domain="[('type','=','delivery')]" name="default_delivery_partner_id"/>
+      <field invisible="1" name="company_id"/>
+      <field name="user_id" widget="many2one_avatar_user"/>
+     </group>
+     <notebook>
+      <page name="entities" string="Entities">
+       <!-- 
                             'context': {
                                 'default_housing_project_id': self.id,
                             },
                             'domain': [
                                 ['housing_project_id', '=', self.id],
                             ],     -->
-                            
-                            
-                            <field name="entity_ids" widget="one2many" context="{'default_housing_project_id': active_id}" domain="[('housing_project_id', '=', active_id)]" >
-                                <tree string="Entities">
-                                    <field name="housing_project_id" invisible="1"/>
-                                    <field name="name"/>
-                                    <field name="description"/>
-                                    <field name="batch_id"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page name="notes" string="Notes">
-                            <field name="notes" placeholder="Notes on this project go here ... "/>
-                        </page>
-                    </notebook>                    
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="message_ids" />
-                </div>
-            </form>
-        </field>
-    </record>
-
-    <record id="housing_project_view_tree" model="ir.ui.view">
-        <field name="name">jt.housing.project.view.tree</field>
-        <field name="model">jt.housing.project</field>
-        <field name="arch" type="xml">
-            <tree string="Housing projects">
-                <field name="sequence" widget="handle" />
-                <field name="priority" widget="priority" optional="show" nolabel="1"/>                
-                <field name="composite_code" optional="show" />
-                <field name="name" />
-                <field name="partner_id" />
-                <field name="batch_count"/>
-                <field name="entity_count" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="action_housing_project_create_reinvoice_sale_order" model="ir.actions.server">
-        <field name="name">Create re-invoice sale order</field>
-        <field name="model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
-        <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
-        <field name="state">code</field>
-        <field name="code">
-            if records:
-                records.action_create_reinvoice_quotation()
-        </field>
-    </record>
-
-    <!-- <record id="action_create_housing_project_entity" model="ir.actions.act_window">
+       <field context="{'default_housing_project_id': active_id}" domain="[('housing_project_id', '=', active_id)]" name="entity_ids" widget="one2many">
+        <tree string="Entities">
+         <field invisible="1" name="housing_project_id"/>
+         <field name="name"/>
+         <field name="description"/>
+         <field name="batch_id"/>
+        </tree></field>
+      </page>
+      <page name="notes" string="Notes">
+       <field name="notes" placeholder="Notes on this project go here ... "/>
+      </page>
+     </notebook>
+    </sheet>
+    <div class="oe_chatter">
+     <field name="message_follower_ids"/>
+     <field name="message_ids"/>
+    </div>
+   </form></field>
+ </record>
+ <record id="housing_project_view_tree" model="ir.ui.view">
+  <field name="name">jt.housing.project.view.tree</field>
+  <field name="model">jt.housing.project</field>
+  <field name="arch" type="xml">
+   <tree string="Housing projects">
+    <field name="sequence" widget="handle"/>
+    <field name="priority" nolabel="1" optional="show" widget="priority"/>
+    <field name="composite_code" optional="show"/>
+    <field name="name"/>
+    <field name="partner_id"/>
+    <field name="batch_count"/>
+    <field name="entity_count"/>
+   </tree></field>
+ </record>
+ <record id="action_housing_project_create_reinvoice_sale_order" model="ir.actions.server">
+  <field name="name">Create re-invoice sale order</field>
+  <field name="model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
+  <field name="binding_model_id" ref="jt_mrp_housing.model_jt_housing_project"/>
+  <field name="state">code</field>
+  <field name="code">if records:
+                records.action_create_reinvoice_quotation()</field>
+ </record>
+ <!-- <record id="action_create_housing_project_entity" model="ir.actions.act_window">
         <field name="name">Entity</field>
         <field name="res_model">jt.housing.entity</field>
         <field name="view_mode">form</field>
@@ -156,60 +134,38 @@
         }</field>
         <field name="target">new</field>
     </record> -->
-
-    <record id="housing_project_action" model="ir.actions.act_window">
-        <field name="name">Housing Project</field>
-        <field name="res_model">jt.housing.project</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p>
-              Let's create your first Housing project.
-            </p>
-        </field>
-    </record>
-
-    <record id="housing_entity_action" model="ir.actions.act_window">
-        <field name="name">Housing Entity</field>
-        <field name="res_model">jt.housing.entity</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p>
-              Let's create your first Housing entity.
-            </p>
-        </field>
-    </record>
-
-    <record id="housing_batch_action" model="ir.actions.act_window">
-        <field name="name">Housing Batch</field>
-        <field name="res_model">jt.housing.batch</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p>
-              Let's create your first Housing batch.
-            </p>
-        </field>
-    </record>    
-
-    <menuitem id="housing_menu_root" name="Housing" sequence="280" web_icon="fa fa-home,#ffffff,#34495e" groups="jt_housing_user">
-        <menuitem id="housing_housing_projects_title" name="Models" sequence="2">
-            <menuitem
-                id="housing_housing_projects"
-                name="Housing projects"
-                action="housing_project_action"
-                sequence="10" />
-            <menuitem
-                id="housing_housing_entities"
-                name="Housing entities"
-                action="housing_entity_action"
-                sequence="20" />
-            <menuitem
-                id="housing_housing_batch"
-                name="Housing batches"
-                action="housing_batch_action"
-                sequence="30" />                
-        </menuitem>
-
-    </menuitem>
-
-
+ <record id="housing_project_action" model="ir.actions.act_window">
+  <field name="name">Housing Project</field>
+  <field name="res_model">jt.housing.project</field>
+  <field name="view_mode">tree,form</field>
+  <field name="help" type="html">
+   <p>
+    Let's create your first Housing project.
+   </p></field>
+ </record>
+ <record id="housing_entity_action" model="ir.actions.act_window">
+  <field name="name">Housing Entity</field>
+  <field name="res_model">jt.housing.entity</field>
+  <field name="view_mode">tree,form</field>
+  <field name="help" type="html">
+   <p>
+    Let's create your first Housing entity.
+   </p></field>
+ </record>
+ <record id="housing_batch_action" model="ir.actions.act_window">
+  <field name="name">Housing Batch</field>
+  <field name="res_model">jt.housing.batch</field>
+  <field name="view_mode">tree,form</field>
+  <field name="help" type="html">
+   <p>
+    Let's create your first Housing batch.
+   </p></field>
+ </record>
+ <menuitem groups="jt_housing_user" id="housing_menu_root" name="Housing" sequence="280" web_icon="fa fa-home,#ffffff,#34495e">
+  <menuitem id="housing_housing_projects_title" name="Models" sequence="2">
+   <menuitem action="housing_project_action" id="housing_housing_projects" name="Housing projects" sequence="10"/>
+   <menuitem action="housing_entity_action" id="housing_housing_entities" name="Housing entities" sequence="20"/>
+   <menuitem action="housing_batch_action" id="housing_housing_batch" name="Housing batches" sequence="30"/>
+  </menuitem>
+ </menuitem>
 </odoo>

@@ -70,7 +70,7 @@ class HousingEntity(models.Model):
     def _compute_composite_code(self):        
         for he in self:
             if he.housing_project_id.composite_code and he.code:
-                he.name = he.housing_project_id.composite_code + "/" + re.sub('[^A-Z0-9\.\-]*', '', he.code.upper())
+                he.name = he.housing_project_id.composite_code + "/" + re.sub(r'[^A-Z0-9\.\-]*', '', he.code.upper())
             else:
                 he.name = "#/#/#"
 
