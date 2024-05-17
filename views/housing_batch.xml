@@ -65,7 +65,7 @@
       <field name="color" widget="color_picker"/>
       <field name="planned_delivery_date"/>
       <field name="logistics_product_id"/>
-      <field domain="['&', ('batch_id', '=', False), ('housing_project_id', '=', housing_project_id)]" name="entity_ids" readonly="readonly_state == True" widget="many2many_tags"/>
+      <field domain="['&amp;', ('batch_id', '=', False), ('housing_project_id', '=', housing_project_id)]" name="entity_ids" readonly="readonly_state == True" widget="many2many_tags"/>
      </group>
     </sheet>
     <div class="oe_chatter">
