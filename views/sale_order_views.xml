@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="sale_action_quotations_new" model="ir.actions.act_window">
-        <field name="name">Quotation</field>
-        <field name="res_model">sale.order</field>
-        <field name="view_mode">form,tree,graph</field>
-        <field name="domain">[('housing_batch_id', '=', active_id)]</field>
-        <!-- <field name="context">{'search_default_opportunity_id': active_id, 'default_opportunity_id': active_id}</field> -->
-    </record>
-
-    <record id="view_order_form" model="ir.ui.view">
-        <field name="name">view_order_form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//group[@name='sales_person']" position="inside">
-                <field name="company_id" invisible="1" />
-                <field name="housing_batch_id" />
-                <field name="housing_project_id" />
-            </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button t-if="housing_batch_id" name="go_to_housing_batch" type="object" icon="fa-home icon" attrs="{'invisible': [('housing_batch_id', '=', False)]}">
-                    <span>Housing</span>
-                </button>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="view_quotation_tree" model="ir.ui.view">
-        <field name="name">Housing batches</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale_stock.view_quotation_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="housing_project_id" optional="hide"/>                
-                <field name="housing_batch_id" optional="hide"/>
-            </xpath>
-        </field>
-    </record>
-
+ <record id="sale_action_quotations_new" model="ir.actions.act_window">
+  <field name="name">Quotation</field>
+  <field name="res_model">sale.order</field>
+  <field name="view_mode">form,tree,graph</field>
+  <field name="domain">[('housing_batch_id', '=', active_id)]</field>
+  <!-- <field name="context">{'search_default_opportunity_id': active_id, 'default_opportunity_id': active_id}</field> -->
+ </record>
+ <record id="view_order_form" model="ir.ui.view">
+  <field name="name">view_order_form</field>
+  <field name="model">sale.order</field>
+  <field name="inherit_id" ref="sale.view_order_form"/>
+  <field name="arch" type="xml">
+   <xpath expr="//group[@name='sales_person']" position="inside">
+    <field invisible="1" name="company_id"/>
+    <field name="housing_batch_id"/>
+    <field name="housing_project_id"/>
+   </xpath>
+   <xpath expr="//div[@name='button_box']" position="inside">
+    <button icon="fa-home icon" invisible="housing_batch_id == False" name="go_to_housing_batch" t-if="housing_batch_id" type="object">
+     <span>
+      Housing
+     </span>
+    </button>
+   </xpath></field>
+ </record>
+ <record id="view_quotation_tree" model="ir.ui.view">
+  <field name="name">Housing batches</field>
+  <field name="model">sale.order</field>
+  <field name="inherit_id" ref="sale_stock.view_quotation_tree"/>
+  <field name="arch" type="xml">
+   <xpath expr="//field[@name='partner_id']" position="after">
+    <field name="housing_project_id" optional="hide"/>
+    <field name="housing_batch_id" optional="hide"/>
+   </xpath></field>
+ </record>
 </odoo>

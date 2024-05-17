@@ -137,7 +137,7 @@ class HousingProject(models.Model):
     def _compute_composite_code(self):
         for hp in self:
             if hp.partner_id.company_code and hp.code:
-                hp.composite_code = hp.partner_id.company_code + "/" + re.sub('[^A-Z0-9\.\-]*', '', hp.code.upper())
+                hp.composite_code = hp.partner_id.company_code + "/" + re.sub(r'[^A-Z0-9\.\-]*', '', hp.code.upper())
             else:
                 hp.composite_code = "#/#"
 
