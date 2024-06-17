@@ -40,7 +40,7 @@
       <field name="housing_project_id" readonly="readonly_state == True"/>
       <field invisible="1" name="state"/>
       <field invisible="1" name="readonly_state"/>
-      <field domain="['&', ('housing_project_id', '=', housing_project_id), ('state', 'in', ['draft',])]" name="batch_id" readonly="readonly_state == True"/>
+      <field domain="['&amp;', ('housing_project_id', '=', housing_project_id), ('state', 'in', ['draft',])]" name="batch_id" readonly="readonly_state == True"/>
      </group>
      <notebook>
       <page name="bom_lines" string="Lines">
