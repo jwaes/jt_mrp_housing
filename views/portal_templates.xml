@@ -34,9 +34,9 @@
                 <thead>
                     <tr class="active">
                         <th>Housing project #</th>
-                        <th class="text-right">Name</th>
-                        <th class="text-right">Entities</th>
-                        <th class="text-right">Batches</th>
+                        <th class="text-end">Name</th>
+                        <th class="text-end">Entities</th>
+                        <th class="text-end">Batches</th>
                     </tr>
                 </thead>
                 <t t-foreach="housing_projects" t-as="hp">
@@ -46,13 +46,13 @@
                                 <t t-esc="hp.composite_code" />
                             </a>
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <span t-field="hp.name" />
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <span t-field="hp.entity_count" />
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <span t-field="hp.batch_count" />
                         </td>
                     </tr>
@@ -82,8 +82,8 @@
                                     <!-- <small class="text-muted d-none d-md-inline"> (#<span
                                     t-field="task.id"/>)</small> -->
                                 </div>
-                                <div class="col-3 text-right">
-                                    <small class="text-right">Stage:</small>
+                                <div class="col-3 text-end">
+                                    <small class="text-end">Stage:</small>
                                     <!-- <span t-field="task.stage_id.name" class=" badge badge-pill
                                     badge-info" title="Current stage of this task"/> -->
                                 </div>

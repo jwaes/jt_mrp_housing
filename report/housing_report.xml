@@ -203,7 +203,7 @@
             <!-- <div class="o_background_header">
                 <div class="float-right">
                     <h3
-            class="mt0 text-right" t-field="company.report_header" />
+            class="mt0 text-end" t-field="company.report_header" />
                 </div>
                 <img
             t-if="company.logo" t-att-src="image_data_uri(company.logo)"
