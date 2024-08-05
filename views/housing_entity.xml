@@ -93,15 +93,5 @@
       </search>
     </field>
   </record>
-  <!-- <record id="action_housing_project_entities_list" model="ir.actions.act_window">
-        <field name="name">Entities</field>
-        <field name="res_model">jt.housing.entity</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('housing_project_id', '=', active_id)]</field>
-        <field name="context">{
-            'housing_project_id': 'active_id',
-            'default_housing_project_id': 'active_id',
-        }</field>
-        <field name="target">current</field>        
-    </record>     -->
+
 </odoo>

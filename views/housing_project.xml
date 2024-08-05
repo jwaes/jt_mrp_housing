@@ -89,8 +89,8 @@
                             'domain': [
                                 ['housing_project_id', '=', self.id],
                             ],     -->
-              <field context="{'default_housing_project_id': active_id}"
-                domain="[('housing_project_id', '=', active_id)]" name="entity_ids"
+              <field context="{'default_housing_project_id': id}"
+                domain="[('housing_project_id', '=', id)]" name="entity_ids"
                 widget="one2many">
                 <tree string="Entities">
                   <field invisible="1" name="housing_project_id" />
@@ -135,15 +135,7 @@
     <field name="code">if records:
       records.action_create_reinvoice_quotation()</field>
   </record>
-  <!-- <record id="action_create_housing_project_entity" model="ir.actions.act_window">
-        <field name="name">Entity</field>
-        <field name="res_model">jt.housing.entity</field>
-        <field name="view_mode">form</field>
-        <field name="context">{
-            'housing_project_id': 'active_id',
-        }</field>
-        <field name="target">new</field>
-    </record> -->
+
   <record id="housing_project_action" model="ir.actions.act_window">
     <field name="name">Housing Project</field>
     <field name="res_model">jt.housing.project</field>

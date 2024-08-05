@@ -4,9 +4,7 @@
     <field name="name">Quotation</field>
     <field name="res_model">sale.order</field>
     <field name="view_mode">form,tree,graph</field>
-    <field name="domain">[('housing_batch_id', '=', active_id)]</field>
-    <!-- <field name="context">{'search_default_opportunity_id': active_id,
-    'default_opportunity_id': active_id}</field> -->
+    <field name="domain">[('housing_batch_id', '=', id)]</field>
   </record>
   <record id="view_order_form" model="ir.ui.view">
     <field name="name">view_order_form</field>
