@@ -74,12 +74,13 @@ class HousingBatch(models.Model):
             batch.sale_order_count = len(sale_orders)
             batch.quotation_count = len(batch.order_ids.filtered_domain(batch.housing_project_id._get_quotation_domain()))
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            seq_date = None
-            vals['name'] = self.env['ir.sequence'].next_by_code('jt.housing.batch', sequence_date=seq_date) or _('New')
-        result = super(HousingBatch, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                seq_date = None
+                vals['name'] = self.env['ir.sequence'].next_by_code('jt.housing.batch', sequence_date=seq_date) or _('New')
+        result = super(HousingBatch, self).create(vals_list)
         return result
 
     def open_housing_batch_entities(self):
