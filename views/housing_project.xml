@@ -167,7 +167,7 @@
     </field>
   </record>
   <menuitem groups="jt_housing_user" id="housing_menu_root" name="Housing" sequence="280"
-    web_icon="fa fa-home,#ffffff,#34495e">
+    web_icon="fa fa-home,#34495e,#ffffff">
     <menuitem id="housing_housing_projects_title" name="Models" sequence="2">
       <menuitem action="housing_project_action" id="housing_housing_projects"
         name="Housing projects" sequence="10" />
