@@ -142,13 +142,18 @@ class HousingProject(models.Model):
                 hp.composite_code = "#/#"
 
     def _create_analytic_account(self):
+        plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
+        if not plan:
+            plan = self.env['account.analytic.plan'].sudo().create({
+                'name': 'Default',
+            })
         for hp in self:
             analytic = self.env['account.analytic.account'].create(
                 {
                     'name': hp.name,
                     'code': hp.reference,
                     'company_id': hp.company_id.id,
-                    # 'plan_id': plan.id,
+                    'plan_id': plan.id,
                     'partner_id': hp.partner_id.id
                 }
             )
