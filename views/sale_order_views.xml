@@ -17,8 +17,7 @@
         <field name="housing_project_id" />
       </xpath>
       <xpath expr="//div[@name='button_box']" position="inside">
-        <button icon="fa-home icon" invisible="housing_batch_id == False" name="go_to_housing_batch"
-          t-if="housing_batch_id" type="object">
+        <button icon="fa-home icon" invisible="not housing_batch_id" name="go_to_housing_batch" type="object">
           <span>
             Housing
           </span>
