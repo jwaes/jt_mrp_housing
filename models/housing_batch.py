@@ -89,8 +89,8 @@ class HousingBatch(models.Model):
             'name': 'Entities',
             'res_model': 'jt.housing.entity',
             'type': 'ir.actions.act_window',
-            'view_mode': 'tree,form',
-            'views': [(self.env.ref('jt_mrp_housing.housing_entity_view_tree').id, 'tree'), (False, 'form')],
+            'view_mode': 'list,form',
+            'views': [(self.env.ref('jt_mrp_housing.housing_entity_view_tree').id, 'list'), (False, 'form')],
             'context': {
                 'default_housing_project_id': self.housing_project_id.id,
                 'default_batch_id': self.id,

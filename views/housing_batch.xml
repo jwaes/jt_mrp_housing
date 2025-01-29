@@ -78,13 +78,13 @@
   <field name="name">jt.housing.batch.view.tree</field>
   <field name="model">jt.housing.batch</field>
   <field name="arch" type="xml">
-   <tree string="Housing batches">
+   <list string="Housing batches">
     <field name="name"/>
     <field name="color" nolabel="1" widget="color_picker"/>
     <field name="housing_project_id" optional="show"/>
     <field name="planned_delivery_date"/>
     <field name="entity_ids" widget="many2many_tags"/>
     <field decoration-success="state == 'sale' or state == 'done'" name="state" optional="show" widget="badge"/>
-   </tree></field>
+   </list></field>
  </record>
 </odoo>

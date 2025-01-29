@@ -3,7 +3,7 @@
   <record id="sale_action_quotations_new" model="ir.actions.act_window">
     <field name="name">Quotation</field>
     <field name="res_model">sale.order</field>
-    <field name="view_mode">form,tree,graph</field>
+    <field name="view_mode">form,list,graph</field>
     <field name="domain">[('housing_batch_id', '=', id)]</field>
   </record>
   <record id="view_order_form" model="ir.ui.view">
