@@ -12,7 +12,6 @@
     <field name="inherit_id" ref="sale.view_order_form" />
     <field name="arch" type="xml">
       <xpath expr="//group[@name='sales_person']" position="inside">
-        <field invisible="1" name="company_id" />
         <field name="housing_batch_id" />
         <field name="housing_project_id" />
       </xpath>

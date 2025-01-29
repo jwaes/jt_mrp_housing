@@ -13,7 +13,7 @@ class HousingBatch(models.Model):
     _check_company_auto = True  
     _inherit = 'mail.thread'
 
-    name = fields.Char('Batch name', required=True, readonly=True, index=True, default=lambda self: _('New'))
+    name = fields.Char('Batch name', required=True, readonly=True, index=True, default=lambda self:  self.env._('New'))
     description = fields.Char('Description')
     planned_delivery_date = fields.Date('Planned delivery date', tracking=True)
 
@@ -77,9 +77,9 @@ class HousingBatch(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('name', _('New')) == _('New'):
+            if vals.get('name',  self.env._('New')) ==  self.env._('New'):
                 seq_date = None
-                vals['name'] = self.env['ir.sequence'].next_by_code('jt.housing.batch', sequence_date=seq_date) or _('New')
+                vals['name'] = self.env['ir.sequence'].next_by_code('jt.housing.batch', sequence_date=seq_date) or  self.env._('New')
         result = super(HousingBatch, self).create(vals_list)
         return result
 

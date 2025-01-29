@@ -63,7 +63,6 @@
             </h1>
           </div>
           <group>
-            <field invisible="1" name="readonly_state" />
             <field name="description" />
             <field name="housing_project_id" readonly="readonly_state == True" />
             <field name="color" widget="color_picker" />

@@ -18,7 +18,7 @@ class HousingEntity(models.Model):
         ('1', 'Favorite'),
     ], default='0', string="Favorite")
 
-    code = fields.Char('Code', required=True, tracking=True, copy=False, default=lambda self: _('New'))
+    code = fields.Char('Code', required=True, tracking=True, copy=False, default=lambda self: self.env._('New'))
     sequence = fields.Integer(
         'Sequence', default=1,
         help="Gives the sequence order when displaying.")

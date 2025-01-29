@@ -77,7 +77,6 @@
             <field name="incoterm_id" />
             <field name="discount" />
             <field domain="[('type','=','delivery')]" name="default_delivery_partner_id" />
-            <field invisible="1" name="company_id" />
             <field name="user_id" widget="many2one_avatar_user" />
           </group>
           <notebook>
@@ -93,7 +92,6 @@
                 domain="[('housing_project_id', '=', id)]" name="entity_ids"
                 widget="one2many">
                 <list string="Entities">
-                  <field invisible="1" name="housing_project_id" />
                   <field name="name" />
                   <field name="description" />
                   <field name="batch_id" />
