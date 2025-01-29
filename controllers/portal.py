@@ -15,12 +15,8 @@ class CustomerPortal(portal.CustomerPortal):
         HousingProject = request.env['jt.housing.project']
 
         if 'housing_project_count' in counters:
-            values['housing_project_count'] = HousingProject.search_count(self._prepare_housing_projects_domain(partner)) \
-                if HousingProject.check_access_rights('read', raise_exception=False) else 0
-        # if 'order_count' in counters:
-        #     values['order_count'] = SaleOrder.search_count(self._prepare_orders_domain(partner)) \
-        #         if SaleOrder.check_access_rights('read', raise_exception=False) else 0
-
+            HousingProject.check_access('read')
+            values['housing_project_count'] = HousingProject.search_count(self._prepare_housing_projects_domain(partner))
         return values
 
     def _prepare_housing_projects_domain(self, partner):
