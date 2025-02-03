@@ -48,7 +48,7 @@
               <field name="bom_line_ids" readonly="readonly_state == True" widget="one2many">
                 <list editable="bottom" string="Components">
                   <field name="sequence" widget="handle" />
-                  <field context="{'default_detailed_type': 'product'}" name="product_id" />
+                  <field context="{'default_type': 'consu'}" name="product_id" />
                   <field name="product_qty" />
                   <field name="product_uom_id" />
                 </list>
